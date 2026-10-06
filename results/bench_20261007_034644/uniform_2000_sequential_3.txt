@@ -1,0 +1,28 @@
+Starting sequential: 2000 windows, 1 ranks, 1 threads/rank
+Mode: sequential
+Workload: uniform
+Input: deterministic synthetic sensor windows
+Windows: 2000
+MPI ranks: 1
+Threads per rank: 1
+Chunk size: 32
+Forecast horizon hours: 168
+Forecast steps: 10752000
+Pipeline seconds: 0.196348
+Sequential reference seconds: 0.101625
+Verification: PASSED (all windows)
+Result checksum: 1669771155541933636
+Mean risk score: 63.244622
+Mean irrigation points: 74.396000
+Plan 0 windows: 0
+Plan 1 windows: 87
+Plan 2 windows: 512
+Plan 3 windows: 1401
+Per-rank workload (work seconds include queue setup for dynamic mode):
+Rank 0 host sit315-master windows 2000 steps 10752000 work_seconds 0.196251 thread_windows 2000
+First five recommendations (plan, mean score, irrigation points):
+Window 0: 3 18.623703 84.000000
+Window 1: 3 18.139845 84.000000
+Window 2: 2 11.207747 56.000000
+Window 3: 2 11.200060 56.000000
+Window 4: 2 14.584671 56.000000

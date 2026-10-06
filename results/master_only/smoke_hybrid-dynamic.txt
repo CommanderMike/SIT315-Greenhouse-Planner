@@ -1,0 +1,29 @@
+Starting hybrid-dynamic: 65 windows, 2 ranks, 2 threads/rank
+Mode: hybrid-dynamic
+Workload: skewed
+Input: data/example_readings.csv
+Windows: 65
+MPI ranks: 2
+Threads per rank: 2
+Chunk size: 8
+Forecast horizon hours: 48
+Forecast steps: 282624
+Pipeline seconds: 0.033179
+Sequential reference seconds: 0.008797
+Verification: PASSED (all windows)
+Result checksum: 4464113005703204511
+Mean risk score: 39.555065
+Mean irrigation points: 9.723077
+Plan 0 windows: 30
+Plan 1 windows: 13
+Plan 2 windows: 0
+Plan 3 windows: 22
+Per-rank workload (work seconds include queue setup for dynamic mode):
+Rank 0 host sit315-master windows 57 steps 184320 work_seconds 0.026183 thread_windows 36 21
+Rank 1 host sit315-master windows 8 steps 98304 work_seconds 0.029552 thread_windows 6 2
+First five recommendations (plan, mean score, irrigation points):
+Window 0: 3 166.523703 24.000000
+Window 1: 1 1.887829 8.000000
+Window 2: 0 0.000000 0.000000
+Window 3: 3 74.877293 24.000000
+Window 4: 0 0.985633 0.000000

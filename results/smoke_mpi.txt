@@ -1,0 +1,29 @@
+Starting mpi: 65 windows, 2 ranks, 1 threads/rank
+Mode: mpi
+Workload: skewed
+Input: data/example_readings.csv
+Windows: 65
+MPI ranks: 2
+Threads per rank: 1
+Chunk size: 8
+Forecast horizon hours: 48
+Forecast steps: 282624
+Pipeline seconds: 0.011731
+Sequential reference seconds: 0.004752
+Verification: PASSED (all windows)
+Result checksum: 4464113005703204511
+Mean risk score: 39.555065
+Mean irrigation points: 9.723077
+Plan 0 windows: 30
+Plan 1 windows: 13
+Plan 2 windows: 0
+Plan 3 windows: 22
+Per-rank workload (work seconds include queue setup for dynamic mode):
+Rank 0 host sit315-master windows 33 steps 233472 work_seconds 0.005897 thread_windows 33
+Rank 1 host sit315-worker windows 32 steps 49152 work_seconds 0.002093 thread_windows 32
+First five recommendations (plan, mean score, irrigation points):
+Window 0: 3 166.523703 24.000000
+Window 1: 1 1.887829 8.000000
+Window 2: 0 0.000000 0.000000
+Window 3: 3 74.877293 24.000000
+Window 4: 0 0.985633 0.000000

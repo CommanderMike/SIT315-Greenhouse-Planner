@@ -1,0 +1,45 @@
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Authorization required, but no authorization protocol specified
+
+Starting hybrid-dynamic: 30000 windows, 2 ranks, 2 threads/rank
+Mode: hybrid-dynamic
+Workload: skewed
+Input: deterministic synthetic sensor windows
+Windows: 30000
+MPI ranks: 2
+Threads per rank: 2
+Chunk size: 32
+Forecast horizon hours: 168
+Forecast steps: 443520000
+Pipeline seconds: 6.941424
+Sequential reference seconds: 5.719607
+Verification: PASSED (all windows)
+Result checksum: 5170057224364419698
+Mean risk score: 66.115368
+Mean irrigation points: 74.645200
+Plan 0 windows: 0
+Plan 1 windows: 1372
+Plan 2 windows: 7279
+Plan 3 windows: 21349
+Per-rank workload (work seconds include queue setup for dynamic mode):
+Rank 0 host sit315-master windows 21552 steps 313807872 work_seconds 6.901744 thread_windows 9842 11710
+Rank 1 host sit315-worker windows 8448 steps 129712128 work_seconds 6.901930 thread_windows 4868 3580
+First five recommendations (plan, mean score, irrigation points):
+Window 0: 3 17.718847 84.000000
+Window 1: 3 19.867105 84.000000
+Window 2: 2 11.269989 56.000000
+Window 3: 2 11.200164 56.000000
+Window 4: 2 12.674816 56.000000

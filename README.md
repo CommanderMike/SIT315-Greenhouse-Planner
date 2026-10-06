@@ -102,7 +102,7 @@ The physical host was Windows 11 Pro (10.0.26200), Intel Core i5-8265U at a repo
 - `data/example_readings.csv`: synthetic seed readings.
 - `results/`: unedited recorded logs and CSV summaries.
 - `evidence/`: supplied screenshots and runtime notes.
-- `docs/`: report and complete code listing, once exported.
+- `docs/`: the project report and benchmark chart.
 
 `make local` is a development fallback without MPI. It cannot provide cross-VM or RMA evidence. Use `make` and `greenhouse` for the actual demonstration.
 
@@ -114,13 +114,12 @@ The physical host was Windows 11 Pro (10.0.26200), Intel Core i5-8265U at a repo
 - OpenMP, loop scheduling: https://www.openmp.org/spec-html/5.1/openmpsu48.html
 - Open MPI, runtime parameters: https://docs.open-mpi.org/en/main/mca.html
 
-The task sheet asks for a 10+ minute demonstration while the OnTrack slot label says 5 minutes. The planned demonstration follows the detailed 10+ minute instruction unless teaching staff clarify otherwise. The demonstration and any follow-up answers need to match this implementation.
 
 ## Submission files
 
 OnTrack's project-code slot takes `src/greenhouse.cpp` as a C++ source file. The entire application is in that source file. The Makefile and scripts automate building and testing; they do not contain additional application code. Upload the report PDF to the report slot.
 
-Before submitting the report, replace its clearly marked GitHub placeholder with the public repository URL. This package is for publishing the source, recorded evidence and supporting files to GitHub; the ZIP itself is not an OnTrack code upload.
+The report includes this repository’s URL. Supporting source, scripts and recorded evidence are available here.
 
 To build a downloaded standalone copy named `greenhouse.cpp`:
 

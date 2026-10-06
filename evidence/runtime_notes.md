@@ -10,4 +10,4 @@ Both guests: Ubuntu 24.04.4 LTS, 2 vCPUs, about 1.9 GiB RAM, zero guest swap.
 SHA-256 of the original benchmarked C++ source: `497444ef2d5f4aa63ebf5cd14212cba4ea63ed637f14ded54161e4bfd62e899c`.
 SHA-256 of the commented submission source: `48b43610c2f7e1d4611791542ba9bc447492405891387f82d19837df18ef047f`.
 
-First-person explanatory comments were added after the benchmark. Every non-comment source line is identical to the original. The algorithms, constants, compiler options and execution scripts have not changed. The original benchmark and stress logs are preserved. The supplied code listing shows the commented submission version.
+First-person explanatory comments were added after the benchmark. Every non-comment source line is identical to the original. The algorithms, constants, compiler options and execution scripts have not changed. The original benchmark and stress logs are preserved. The repository source contains the commented submission version.

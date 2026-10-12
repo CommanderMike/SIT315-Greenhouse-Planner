@@ -1,0 +1,34 @@
+Command: ./greenhouse --mode sequential --jobs 30000 --threads 2 --horizon 168 --chunk 32 --workload random --seed 315
+Starting sequential: 30000 windows, 1 ranks, 1 threads/rank
+Mode: sequential
+Workload: random
+Input: deterministic synthetic sensor windows
+Windows: 30000
+MPI ranks: 1
+Threads per rank: 1
+Chunk size: 32
+Forecast horizon hours: 168
+Workload seed: 315
+Expensive windows: 7467
+Forecast steps: 442278144
+Pipeline seconds: 5.052015
+Sequential reference seconds: 4.828160
+Verification: PASSED (all windows)
+Result checksum: 10259175728873143261
+Mean risk score: 65.803336
+Mean irrigation points: 74.651733
+Plan 0 windows: 0
+Plan 1 windows: 1360
+Plan 2 windows: 7296
+Plan 3 windows: 21344
+Per-rank workload (work seconds include queue setup for dynamic mode):
+Rank 0 host sit315-master windows 30000 steps 442278144 work_seconds 5.030212 thread_windows 30000
+First five recommendations (plan, mean score, irrigation points):
+Window 0: 3 18.623703 84.000000
+Window 1: 3 19.867105 84.000000
+Window 2: 2 11.207747 56.000000
+Window 3: 2 11.200164 56.000000
+Window 4: 2 14.584671 56.000000
+
+Run exit status: 0
+Command wall seconds: 10.652791

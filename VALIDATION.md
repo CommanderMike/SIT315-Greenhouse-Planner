@@ -1,22 +1,23 @@
-# Validation and evidence
+# Validation record
 
-## Recorded Ubuntu VM evidence, 7 October 2026
+## Original experiment
 
-- A 65-window synthetic CSV smoke test passed in all four modes on one VM.
-- The same four-mode smoke test passed across master and worker with an uneven final chunk. All four checksums were 4464113005703204511.
-- All 72 benchmark files in `results/bench_20261007_034644` passed full result verification.
-- The audited logs had the expected window/scenario-step totals, matching checksums for each input case, complete rank/thread work accounting, and both VM hostnames in every distributed run.
-- Summary medians, ranges and speedups were independently recalculated from the logs and matched both saved CSV files.
-- The controlled stress test recorded startup and a 120-second timeout (exit code 124). It did not produce a completed stress result.
+The original submission's validation notes are preserved in `evidence/source_versions/VALIDATION_original_submission.md`. Its 72-run evidence remains in `results/bench_20261007_034644`. The original commented submission source is archived separately. Adding explanatory comments was the only source change for that earlier submission.
 
-## Development-only checks
+## Revised source
 
-The earlier local CPU fallback tests exercised window counts 1, 3, 65 and 257, uneven chunks, invalid arguments, missing input and a NaN reading. A hand-checkable one-hour moist-soil input selected plan zero with zero penalty and watering. These checks support the forecast and scheduling logic; their timings are not VM benchmark evidence.
+The revised source adds seeded random scenario counts, seed parsing and workload diagnostics. It retains the forecast equations, MPI/OpenMP scheduling method, result verification and timer boundaries. Before delivery, local CPU checks covered all four modes, each tested chunk and seed, original-mode numerical agreement and invalid arguments. Those development checks were not distributed performance evidence.
 
-## Limits
+## Recorded two-VM follow-up
 
-The sequential reference calls the same forecast function, so full verification tests distribution and scheduling consistency rather than independent scientific correctness. There is no crop calibration, live sensor capture, independent physical cluster, empirical chunk-size optimum or guaranteed grade claim. Measured runtime variability is retained, not removed.
+The completed user-run experiment is `results/followup_20261013_060245`. Its manifest specifies 126 measured runs, 30,000 windows, horizon 168, two ranks, two hybrid threads per rank, the explicit IPv4 subnet and the revised source and master executable hashes.
 
-## Submission comment check
+All 126 planned logs are present with exit status zero and full verification. Every parallel log identifies `sit315-master` and `sit315-worker`. Rank and thread window counts sum to 30,000. Forecast-step totals and result checksums agree within each workload and seed across every mode and chunk.
 
-After adding explanatory comments, all non-comment source lines were compared with the benchmarked version and matched exactly. A local fallback syntax check also passed. This is a documentation change to the source, not a new MPI algorithm or another measured benchmark.
+The summariser regenerated `summary.csv`, `runs.csv`, `rank_runs.csv` and `analysis.txt` byte-for-byte identically to the uploaded versions. A separate raw-log audit checked the 28 groups' medians, extrema, means, sample standard deviations, CV values and seed-specific speedups, and independently recreated the random cost counts from the 64-bit ID/seed mapping.
+
+The initial interrupted attempt is not part of the completed dataset. Slow successful runs within the completed dataset were retained. The logs establish agreement with the program's sequential reference, not scientific validity of the chosen greenhouse model or a measured cause for every timing delay.
+
+## Findings
+
+Hybrid static had the lowest median for every random seed. Hybrid dynamic, chunk 512, had the lowest median for the clustered workload. Chunk 8 was slower than sequential in all four cases. The best tested dynamic chunk varied by seed; it is not a proven global optimum. Both VMs share one laptop, and the sample sizes are limited.

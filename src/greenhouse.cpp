@@ -25,6 +25,7 @@ struct Options {
     std::string mode = "sequential", workload = "uniform", input;
     long long jobs = 64;
     int threads = 2, chunk = 32, horizon = 48;
+    long long workloadSeed = 315;
     bool verify = true, help = false;
 };
 struct Reading { double soil, temperature, humidity; };
@@ -63,6 +64,7 @@ static Options parse(int argc, char** argv) {
         else if (key == "--workload") o.workload = value;
         else if (key == "--input") o.input = value;
         else if (key == "--jobs") o.jobs = integer(value, key);
+        else if (key == "--seed") o.workloadSeed = integer(value, key);
         else if (key == "--threads" || key == "--chunk" || key == "--horizon") {
             const auto n = integer(value,key);
             if (n < 1 || n > 100000) throw std::runtime_error("Out of range: " + key);
@@ -73,8 +75,9 @@ static Options parse(int argc, char** argv) {
     }
     if (o.mode != "sequential" && o.mode != "mpi" && o.mode != "hybrid-static" && o.mode != "hybrid-dynamic")
         throw std::runtime_error("Mode must be sequential, mpi, hybrid-static or hybrid-dynamic");
-    if (o.workload != "uniform" && o.workload != "skewed")
-        throw std::runtime_error("Workload must be uniform or skewed");
+    if (o.workload != "uniform" && o.workload != "skewed" && o.workload != "random")
+        throw std::runtime_error("Workload must be uniform, skewed or random");
+    if (o.workloadSeed < 0) throw std::runtime_error("Seed must be non-negative");
     if (o.jobs < 1 || o.jobs > 1000000000LL) throw std::runtime_error("Jobs must be between 1 and 1000000000");
     if (o.threads > 64 || o.chunk > 65536 || o.horizon > 720) throw std::runtime_error("Maximum threads/chunk/horizon: 64/65536/720");
     if (o.verify && o.jobs > 200000) throw std::runtime_error("Full verification limit is 200000 jobs; use --no-verify for the stress test");
@@ -83,7 +86,7 @@ static Options parse(int argc, char** argv) {
 static void usage() {
     std::cout << "Usage: greenhouse --mode sequential|mpi|hybrid-static|hybrid-dynamic\n"
               << "  --jobs N --threads T --chunk C --horizon HOURS\n"
-              << "  --workload uniform|skewed [--input readings.csv] [--no-verify]\n"
+              << "  --workload uniform|skewed|random [--seed N] [--input readings.csv] [--no-verify]\n"
               << "Defaults: 64 jobs, 2 threads, chunk 32, horizon 48, full verification\n"
               << "CSV header: soil_pct,temperature_c,humidity_pct\n";
 }
@@ -139,6 +142,13 @@ static Reading readingFor(long long id, const std::vector<Reading>& seeds) {
             35.0 + static_cast<double>((x >> 32) % 5000)/100.0};
 }
 static int scenarioCount(long long id, const Options& o) {
+    if (o.workload == "random") {
+        // I scatter expensive jobs using a seeded pseudorandom value for each ID.
+        // A quarter of values are selected in expectation, not an exact quarter of every sample.
+        // I separate this stream from the sensor values and never use rank or chunk order as a seed.
+        const auto stream = mix(static_cast<std::uint64_t>(o.workloadSeed) ^ 0xd1b54a32d192ed03ULL);
+        return (mix(static_cast<std::uint64_t>(id) ^ stream) & 3ULL) == 0 ? 64 : 8;
+    }
     // I put the expensive windows first to expose the imbalance in a fixed split.
     return o.workload == "skewed" && id < (o.jobs+3)/4 ? 64 : 8;
 }
@@ -390,6 +400,8 @@ int main(int argc,char** argv) {
                      <<"Mode: "<<o.mode<<"\nWorkload: "<<o.workload<<"\nInput: "<<(o.input.empty()?"deterministic synthetic sensor windows":o.input)
                      <<"\nWindows: "<<o.jobs<<"\nMPI ranks: "<<ranks<<"\nThreads per rank: "<<threads
                      <<"\nChunk size: "<<o.chunk<<"\nForecast horizon hours: "<<o.horizon
+                     <<"\nWorkload seed: "<<o.workloadSeed
+                     <<"\nExpensive windows: "<<((total.steps/(4LL*o.horizon)-8LL*total.jobs)/56LL)
                      <<"\nForecast steps: "<<total.steps<<"\nPipeline seconds: "<<pipelineSeconds
                      <<"\nSequential reference seconds: "<<referenceSeconds
                      <<"\nVerification: "<<(o.verify?(verified?"PASSED (all windows)":"FAILED"):"NOT RUN (--no-verify)")
